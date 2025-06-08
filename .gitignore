@@ -1,0 +1,16 @@
+# Python
+*.pyc
+__pycache__/
+venv/
+
+# React
+node_modules/
+build/
+dist/
+
+# Models & datasets
+*.pkl
+*.csv
+
+# OS
+.DS_Store
