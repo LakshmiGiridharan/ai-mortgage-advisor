@@ -1,14 +1,17 @@
 # Python
 *.pyc
 __pycache__/
+venv/
 
 # React
 build/
 dist/
+node_modules/
 
 # Models & datasets
 *.pkl
 *.csv
+*.dylib
 
 # OS
 .DS_Store
