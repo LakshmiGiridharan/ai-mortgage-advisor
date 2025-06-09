@@ -1,5 +1,9 @@
+import React from "react";
 import EligibilityForm from "./components/EligibilityForm";
 import RefinanceCalculator from "./components/RefinanceCalculator";
+import ChatWidget from "./components/ChatWidget"; // ✅ floating bot
+
+import './components/chatbot.css';
 
 function App() {
   return (
@@ -7,7 +11,11 @@ function App() {
       <div className="max-w-4xl mx-auto grid gap-10">
         <EligibilityForm />
         <RefinanceCalculator />
+        {/* ❌ Removed direct <ChatBot /> */}
       </div>
+
+      {/* ✅ Floating ChatBot */}
+      <ChatWidget />
     </div>
   );
 }
