@@ -1,35 +1,88 @@
-/* Keep previous styles and add these below */
-
 .chat-widget {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  z-index: 9999;
-  text-align: right;
+  z-index: 999;
 }
 
 .chat-toggle {
   background-color: #007bff;
   color: white;
-  font-weight: bold;
-  border: none;
-  border-radius: 20px;
   padding: 12px 20px;
+  border: none;
+  border-radius: 30px;
   cursor: pointer;
-  white-space: pre-line;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  transition: background 0.3s;
+  font-size: 14px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-.chat-toggle:hover {
-  background-color: #0056b3;
-}
-
-.chat-container {
-  width: 320px;
+.chat-box {
+  width: 300px;
   height: 400px;
-  background-color: #f0f8ff;
-  border-radius: 16px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  background: white;
+  border-radius: 10px;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+
+.chat-header {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.close-btn {
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  color: white;
+  cursor: pointer;
+}
+
+.chat-body {
+  flex: 1;
+  padding: 10px;
+  overflow-y: auto;
+  background-color: #f4f7fa;
+}
+
+.user-msg {
+  text-align: right;
+  margin: 5px 0;
+  color: #333;
+}
+
+.bot-msg {
+  text-align: left;
+  margin: 5px 0;
+  color: #007bff;
+}
+
+.chat-input {
+  display: flex;
+  border-top: 1px solid #ddd;
+}
+
+.chat-input input {
+  flex: 1;
+  border: none;
+  padding: 10px;
+  font-size: 14px;
+  outline: none;
+  color: black;
+  background-color: white;
+}
+
+.chat-input button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
 }
