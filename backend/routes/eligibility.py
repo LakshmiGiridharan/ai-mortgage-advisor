@@ -36,14 +36,30 @@ def encode_features(data: EligibilityRequest):
 async def check_eligibility(data: EligibilityRequest):
     eligible = data.credit_score >= 650 and data.loan_amount <= 500000
     eligible_amount = 0
+    reasons = []
 
+    # Real-time rule-based evaluation
     if eligible:
         eligible_amount = data.loan_amount
     else:
-        # Optional logic to calculate eligibility dynamically
+        # Compute fallback eligible amount
         eligible_amount = min(data.loan_amount * 0.8, 300000)
+
+        # Real-time ineligibility reasons
+        if data.credit_score < 650:
+            reasons.append(f"Your credit score of {data.credit_score} is below the required 650.")
+        if data.loan_amount > 500000:
+            reasons.append(f"Requested loan amount ${data.loan_amount:,.2f} exceeds the $500,000 limit.")
+        if data.loan_term > 30:
+            reasons.append("Loan term exceeds the maximum allowable duration of 30 years.")
+        if not data.loan_type.lower() in ['conventional', 'fha', 'va']:
+            reasons.append(f"Loan type '{data.loan_type}' is not currently supported.")
+        if not reasons:
+            reasons.append("Your profile does not meet our eligibility criteria at this time.")
 
     return {
         "eligible": eligible,
-        "eligibleAmount": round(eligible_amount, 2)  # <-- Ensure key matches frontend
+        "eligibleAmount": round(eligible_amount, 2),
+        "reasons": reasons
     }
+

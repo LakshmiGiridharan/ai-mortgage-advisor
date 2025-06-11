@@ -1,18 +1,17 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import EligibilityChart from "./EligibilityChart";
 
 const EligibilityForm = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
+    name: "",
     houseType: "",
     loanTerm: 15,
     creditScore: "",
     loanAmount: "",
     loanType: ""
   });
-  const [result, setResult] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,31 +37,58 @@ const EligibilityForm = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
       });
+
       const data = await res.json();
-      setResult(data);
+
+      navigate("/result", {
+        state: {
+          name: formData.name || "User",
+          eligible: data.eligible,
+          eligibleAmount: data.eligibleAmount,
+          requestedAmount: parseFloat(formData.loanAmount),
+          creditScore: parseInt(formData.creditScore),
+          loanType: formData.loanType,
+          loanTerm: formData.loanTerm,
+          reasons: data.reasons || []
+        }
+      });
     } catch (error) {
       console.error("Error checking eligibility:", error);
     }
   };
 
   return (
-    <div className="space-y-6 text-left">
+    <div className="space-y-6 text-left max-w-2xl mx-auto mt-10 p-6 bg-white shadow-md rounded-lg">
       {step === 1 && (
-        <div>
-          <label className="block font-semibold">Select the type of house:</label>
-          <select
-            name="houseType"
-            value={formData.houseType}
-            onChange={handleChange}
-            className="w-full p-2 mt-1 border rounded"
-          >
-            <option value="">-- Choose --</option>
-            <option value="Single Family">Single Family</option>
-            <option value="Townhouse">Townhouse</option>
-            <option value="Condo">Condo</option>
-            <option value="Multi-family">Multi-family</option>
-          </select>
-        </div>
+        <>
+          <div className="mb-4">
+            <label className="block font-semibold">Enter your name:</label>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              className="w-full p-2 mt-1 border rounded"
+              placeholder="e.g., Alex"
+            />
+          </div>
+
+          <div>
+            <label className="block font-semibold">Select the type of house:</label>
+            <select
+              name="houseType"
+              value={formData.houseType}
+              onChange={handleChange}
+              className="w-full p-2 mt-1 border rounded"
+            >
+              <option value="">-- Choose --</option>
+              <option value="Single Family">Single Family</option>
+              <option value="Townhouse">Townhouse</option>
+              <option value="Condo">Condo</option>
+              <option value="Multi-family">Multi-family</option>
+            </select>
+          </div>
+        </>
       )}
 
       {step === 2 && (
@@ -105,6 +131,7 @@ const EligibilityForm = () => {
               className="w-full p-2 mt-1 border rounded"
             />
           </div>
+
           <div className="mt-4">
             <label className="block font-semibold">Select loan type:</label>
             <select
@@ -123,7 +150,8 @@ const EligibilityForm = () => {
         </>
       )}
 
-      <div className="mt-4 flex justify-between">
+      {/* Navigation buttons */}
+      <div className="mt-6 flex justify-between">
         {step > 1 && (
           <button
             className="px-4 py-2 bg-gray-400 text-white rounded"
@@ -149,59 +177,8 @@ const EligibilityForm = () => {
           </button>
         )}
       </div>
-      {result && (
-  <>
-    <div className="mt-6 p-4 bg-gray-100 rounded text-center shadow">
-      <h2 className="font-bold text-xl text-blue-800 mb-2">🎯 Eligibility Result</h2>
-      {result.eligible ? (
-        <p className="text-green-700 text-lg">
-          ✅ You are eligible for the loan!<br />
-          <span className="font-semibold">Approved Loan Amount:</span> ${parseInt(result.eligibleAmount).toLocaleString()}
-        </p>
-      ) : (
-        <p className="text-red-700 text-lg">
-          ❌ You are not eligible currently.<br />
-          But based on your profile, you may qualify for up to: <br />
-          <span className="font-semibold text-black">
-            ${parseInt(result.eligibleAmount || 0).toLocaleString()}
-          </span>
-        </p>
-      )}
     </div>
-
-    {!result.eligible && (
-      <div className="mt-6">
-        <EligibilityChart
-          eligibleAmount={result.eligibleAmount}
-          requestedAmount={formData.loanAmount}
-        />
-
-        <p className="text-sm mt-4 text-center">
-          🤖 Want to understand why you're not eligible?{" "}
-          <button
-            className="text-blue-600 underline"
-            onClick={() => document.querySelector(".chat-toggle")?.click()}
-          >
-            Chat with AJ now
-          </button>
-        </p>
-
-        <div className="flex justify-center mt-4">
-          <button
-            className="bg-purple-600 text-white px-4 py-2 rounded shadow hover:bg-purple-700"
-            onClick={() => window.print()}
-          >
-            📄 Download Eligibility Report
-          </button>
-        </div>
-      </div>
-    )}
-  </>
-)}  
-</div> // Final outer container
-);
+  );
 };
 
 export default EligibilityForm;
-
-
