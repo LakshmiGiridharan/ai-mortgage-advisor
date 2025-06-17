@@ -12,26 +12,26 @@ While exploring mortgage tools for personal use, I noticed the lack of smart sys
 💡 Proposed Solution
 Mortgage approval prediction using classification model
 
-Refinance savings prediction using regression model
+- Refinance savings prediction using regression model
 
-GPT-based assistant to answer contextual mortgage questions
+- GPT-based assistant to answer contextual mortgage questions
 
-Frontend with animated, multi-step eligibility forms
+- Frontend with animated, multi-step eligibility forms
 
-Exportable eligibility reports as PDFs
+- Exportable eligibility reports as PDFs
 
 🏗️ Architecture / Features
-Scikit-learn for training ML models
+- Scikit-learn for training ML models
 
-FastAPI backend for API integration
+- FastAPI backend for API integration
 
-OpenAI GPT-4 integration
+- OpenAI GPT-4 integration
 
-React frontend with chatbot and form wizard
+- React frontend with chatbot and form wizard
 
-ReportLab & Matplotlib for PDF generation
+- ReportLab & Matplotlib for PDF generation
 
-Hosted on AWS EC2
+- Hosted on AWS EC2
 
 🛠 Tech Stack
 React · FastAPI · OpenAI GPT-4 · Scikit-learn · ReportLab · AWS EC2 · Matplotlib · Python
@@ -41,7 +41,6 @@ bash
 Copy
 Edit
 # Frontend
-
 ```
 cd frontend
 npm install
